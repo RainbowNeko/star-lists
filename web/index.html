@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>star-lists · GitHub Star 分类工作台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <span class="brand-mark">⭐</span>
+          <div class="brand-copy">
+            <strong>star-lists</strong>
+            <small>GitHub Star 分类工作台</small>
+          </div>
+          <button
+            id="sidebar-toggle"
+            class="ghost sidebar-toggle"
+            type="button"
+            aria-controls="sidebar"
+            aria-expanded="true"
+            aria-label="收起侧栏"
+            title="收起侧栏"
+          >«</button>
+        </div>
+
+        <section class="panel">
+          <h2>分析</h2>
+          <form id="analyze-form">
+            <label class="field">
+              <span>GitHub 用户名</span>
+              <input id="username" name="username" placeholder="例如 Core2002" autocomplete="off" />
+            </label>
+            <label class="field">
+              <span>本地数据（可选）</span>
+              <input id="input" name="input" placeholder="例如 out/Core2002/data.json" autocomplete="off" />
+            </label>
+
+            <div class="row two">
+              <label class="field">
+                <span>分类引擎</span>
+                <select id="engine" name="engine">
+                  <option value="rules">规则引擎（默认）</option>
+                  <option value="edge">端侧小模型</option>
+                  <option value="large">大模型</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>深度分析</span>
+                <span class="check-inline"><input id="deep" type="checkbox" /> 开启</span>
+              </label>
+            </div>
+
+            <div id="engine-config" class="engine-config hidden">
+              <label class="field">
+                <span>OpenAI 兼容地址</span>
+                <input id="engineBaseUrl" placeholder="http://127.0.0.1:11434/v1" autocomplete="off" />
+              </label>
+              <div class="row two">
+                <label class="field">
+                  <span>模型名</span>
+                  <input id="engineModel" placeholder="qwen2.5:3b" autocomplete="off" />
+                </label>
+                <label class="field">
+                  <span>API Key</span>
+                  <input id="engineApiKey" type="password" placeholder="本地服务可留空" autocomplete="off" />
+                </label>
+              </div>
+              <div class="row two">
+                <label class="field">
+                  <span>每批仓库数</span>
+                  <input id="engineBatchSize" type="number" min="1" max="500" value="20" />
+                </label>
+                <label class="field">
+                  <span>并发批次</span>
+                  <input id="engineConcurrency" type="number" min="1" max="8" placeholder="自动" />
+                </label>
+              </div>
+            </div>
+
+            <div class="row two">
+              <label class="field">
+                <span>深度分析上限</span>
+                <input id="deepMax" type="number" min="0" value="300" />
+              </label>
+              <label class="field">
+                <span>最小 Star</span>
+                <input id="minStars" type="number" min="0" value="0" />
+              </label>
+            </div>
+            <div class="row two">
+              <label class="field">
+                <span>Star 起始日期</span>
+                <input id="since" type="date" />
+              </label>
+              <label class="field">
+                <span>最多处理</span>
+                <input id="limit" type="number" min="0" placeholder="不限" />
+              </label>
+            </div>
+
+            <div class="checks">
+              <label><input id="excludeForks" type="checkbox" /> 排除 fork</label>
+              <label><input id="excludeArchived" type="checkbox" /> 排除归档</label>
+              <label><input id="refresh" type="checkbox" /> 忽略缓存</label>
+              <label><input id="noCache" type="checkbox" /> 禁用缓存</label>
+            </div>
+
+            <label class="field">
+              <span>GitHub Token（可选，仅本次使用）</span>
+              <input id="token" type="password" placeholder="ghp_… / github_pat_…" autocomplete="off" />
+            </label>
+
+            <button id="analyze-btn" class="primary" type="submit">开始分析</button>
+            <div id="job-status" class="job-status hidden"></div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>数据集</h2>
+            <button id="reload-datasets" class="ghost small" type="button">刷新</button>
+          </div>
+          <select id="dataset-select" class="full"></select>
+          <div id="dataset-meta" class="meta-box muted">正在加载数据集…</div>
+        </section>
+
+        <section class="panel">
+          <h2>发布到 GitHub Lists</h2>
+          <p class="hint">使用上方 GitHub Token。建议先 dry-run。</p>
+          <div class="checks">
+            <label><input id="publish-dry-run" type="checkbox" checked /> 仅预览（dry-run）</label>
+            <label><input id="replace-lists" type="checkbox" /> 覆盖已有列表归属</label>
+          </div>
+          <details class="skip">
+            <summary>跳过层级</summary>
+            <div id="skip-levels" class="skip-grid"></div>
+          </details>
+          <button id="publish-btn" class="secondary" type="button">发布 / 预览</button>
+          <pre id="publish-report" class="report hidden"></pre>
+        </section>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1 id="title">选择一个数据集开始</h1>
+            <div id="subtitle" class="subtitle">从左侧分析 GitHub 用户，或加载 out/ 下已有数据</div>
+          </div>
+          <div class="top-actions">
+            <a id="download" class="ghost disabled" href="#" download>下载 data.json</a>
+            <button id="save-btn" class="primary" type="button" disabled>保存人工分类 <span id="unsaved-count"></span></button>
+          </div>
+        </header>
+
+        <div id="stats" class="stats"></div>
+
+        <div class="toolbar">
+          <input id="search" class="search" type="search" placeholder="搜索仓库名、描述、topics…" />
+          <select id="filter">
+            <option value="all">全部仓库</option>
+            <option value="review">仅待复核</option>
+            <option value="manual">仅人工分类</option>
+          </select>
+          <span id="visible-count" class="muted"></span>
+        </div>
+
+        <div id="banner" class="banner hidden"></div>
+        <div id="board" class="board">
+          <div class="empty-state">正在加载数据集…</div>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="detail-dialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-head">
+          <div>
+            <h2 id="detail-title">仓库</h2>
+            <a id="detail-link" href="#" target="_blank" rel="noreferrer" class="muted"></a>
+          </div>
+          <button class="ghost" value="close" aria-label="关闭">✕</button>
+        </div>
+        <p id="detail-desc" class="detail-desc"></p>
+        <div id="detail-meta" class="detail-meta"></div>
+        <div class="field">
+          <span>人工调整层级</span>
+          <select id="detail-level"></select>
+        </div>
+        <div>
+          <h3>判定依据</h3>
+          <ul id="detail-evidence" class="evidence"></ul>
+        </div>
+        <p class="hint">层级修改会先应用到看板，点击顶部「保存人工分类」后才写入文件。</p>
+        <div class="dialog-actions">
+          <button class="ghost" id="detail-confirm" type="button">确认分类无误</button>
+          <button class="primary" id="detail-save" value="save">应用修改</button>
+          <button class="ghost" value="close">关闭</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast hidden"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

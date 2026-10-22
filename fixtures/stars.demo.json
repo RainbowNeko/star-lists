@@ -1,0 +1,1168 @@
+{
+  "schemaVersion": 1,
+  "username": "demo",
+  "profile": {
+    "login": "demo",
+    "name": "Demo User",
+    "avatarUrl": null,
+    "htmlUrl": "https://github.com/demo",
+    "bio": "用于演示 star-lists 的离线数据",
+    "publicRepos": 42,
+    "followers": 7
+  },
+  "fetchedAt": "2026-10-18T10:00:00Z",
+  "totalStarred": 33,
+  "deep": true,
+  "repos": [
+    {
+      "id": 1,
+      "node_id": "R_demo_2",
+      "name": "linux",
+      "full_name": "torvalds/linux",
+      "owner": {
+        "login": "torvalds"
+      },
+      "html_url": "https://github.com/torvalds/linux",
+      "description": "Linux kernel source tree",
+      "topics": [
+        "linux",
+        "kernel",
+        "operating-system"
+      ],
+      "language": "C",
+      "stargazers_count": 201000,
+      "forks_count": 20100,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "master",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "GPL-2.0"
+      },
+      "starred_at": "2024-01-03T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "node_id": "R_demo_3",
+      "name": "zephyr",
+      "full_name": "zephyrproject-rtos/zephyr",
+      "owner": {
+        "login": "zephyrproject-rtos"
+      },
+      "html_url": "https://github.com/zephyrproject-rtos/zephyr",
+      "description": "Primary Git Repository for the Zephyr Project. Zephyr is a new generation, scalable, optimized, secure RTOS for multiple hardware architectures.",
+      "topics": [
+        "rtos",
+        "embedded",
+        "kernel",
+        "iot"
+      ],
+      "language": "C",
+      "stargazers_count": 12000,
+      "forks_count": 1200,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-04T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "node_id": "R_demo_4",
+      "name": "libbpf",
+      "full_name": "libbpf/libbpf",
+      "owner": {
+        "login": "libbpf"
+      },
+      "html_url": "https://github.com/libbpf/libbpf",
+      "description": "libbpf is a library for loading eBPF programs and tracing the kernel.",
+      "topics": [
+        "ebpf",
+        "bpf",
+        "kernel"
+      ],
+      "language": "C",
+      "stargazers_count": 2500,
+      "forks_count": 250,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-05T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "node_id": "R_demo_5",
+      "name": "openssl",
+      "full_name": "openssl/openssl",
+      "owner": {
+        "login": "openssl"
+      },
+      "html_url": "https://github.com/openssl/openssl",
+      "description": "TLS/SSL and crypto library",
+      "topics": [
+        "cryptography",
+        "tls",
+        "ssl",
+        "security"
+      ],
+      "language": "C",
+      "stargazers_count": 26000,
+      "forks_count": 2600,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-06T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "node_id": "R_demo_6",
+      "name": "node",
+      "full_name": "nodejs/node",
+      "owner": {
+        "login": "nodejs"
+      },
+      "html_url": "https://github.com/nodejs/node",
+      "description": "Node.js JavaScript runtime ✨🐢🚀✨",
+      "topics": [
+        "runtime",
+        "javascript",
+        "nodejs"
+      ],
+      "language": "JavaScript",
+      "stargazers_count": 108000,
+      "forks_count": 10800,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-07T00:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "node_id": "R_demo_7",
+      "name": "go",
+      "full_name": "golang/go",
+      "owner": {
+        "login": "golang"
+      },
+      "html_url": "https://github.com/golang/go",
+      "description": "The Go programming language",
+      "topics": [
+        "go",
+        "programming-language",
+        "compiler"
+      ],
+      "language": "Go",
+      "stargazers_count": 125000,
+      "forks_count": 12500,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-08T00:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "node_id": "R_demo_8",
+      "name": "typescript",
+      "full_name": "microsoft/typescript",
+      "owner": {
+        "login": "microsoft"
+      },
+      "html_url": "https://github.com/microsoft/typescript",
+      "description": "TypeScript is a superset of JavaScript that compiles to clean JavaScript output.",
+      "topics": [
+        "typescript",
+        "compiler",
+        "language"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 102000,
+      "forks_count": 10200,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-09T00:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "node_id": "R_demo_9",
+      "name": "ffmpeg",
+      "full_name": "ffmpeg/ffmpeg",
+      "owner": {
+        "login": "ffmpeg"
+      },
+      "html_url": "https://github.com/ffmpeg/ffmpeg",
+      "description": "Mirror of https://git.ffmpeg.org/ffmpeg.git",
+      "topics": [
+        "multimedia",
+        "codec",
+        "video"
+      ],
+      "language": "C",
+      "stargazers_count": 48000,
+      "forks_count": 4800,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-10T00:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "node_id": "R_demo_10",
+      "name": "react",
+      "full_name": "facebook/react",
+      "owner": {
+        "login": "facebook"
+      },
+      "html_url": "https://github.com/facebook/react",
+      "description": "The library for web and native user interfaces.",
+      "topics": [
+        "react",
+        "ui",
+        "library",
+        "frontend"
+      ],
+      "language": "JavaScript",
+      "stargazers_count": 232000,
+      "forks_count": 23200,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-11T00:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "node_id": "R_demo_11",
+      "name": "axios",
+      "full_name": "axios/axios",
+      "owner": {
+        "login": "axios"
+      },
+      "html_url": "https://github.com/axios/axios",
+      "description": "Promise based HTTP client for the browser and node.js",
+      "topics": [
+        "http",
+        "client",
+        "promise"
+      ],
+      "language": "JavaScript",
+      "stargazers_count": 106000,
+      "forks_count": 10600,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-12T00:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "node_id": "R_demo_12",
+      "name": "express",
+      "full_name": "expressjs/express",
+      "owner": {
+        "login": "expressjs"
+      },
+      "html_url": "https://github.com/expressjs/express",
+      "description": "Fast, unopinionated, minimalist web framework for node.",
+      "topics": [
+        "express",
+        "nodejs",
+        "framework",
+        "web"
+      ],
+      "language": "JavaScript",
+      "stargazers_count": 66000,
+      "forks_count": 6600,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-13T00:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "node_id": "R_demo_13",
+      "name": "flask",
+      "full_name": "pallets/flask",
+      "owner": {
+        "login": "pallets"
+      },
+      "html_url": "https://github.com/pallets/flask",
+      "description": "The Python micro framework for building web applications.",
+      "topics": [
+        "python",
+        "flask",
+        "web",
+        "framework"
+      ],
+      "language": "Python",
+      "stargazers_count": 69000,
+      "forks_count": 6900,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-14T00:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "node_id": "R_demo_14",
+      "name": "ollama",
+      "full_name": "ollama/ollama",
+      "owner": {
+        "login": "ollama"
+      },
+      "html_url": "https://github.com/ollama/ollama",
+      "description": "Get up and running with Llama 3.3, DeepSeek-R1, Phi-4, Gemma 3, Mistral, and other large language models.",
+      "topics": [
+        "llm",
+        "llama",
+        "go"
+      ],
+      "language": "Go",
+      "stargazers_count": 148000,
+      "forks_count": 14800,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "node_id": "R_demo_15",
+      "name": "ripgrep",
+      "full_name": "BurntSushi/ripgrep",
+      "owner": {
+        "login": "BurntSushi"
+      },
+      "html_url": "https://github.com/BurntSushi/ripgrep",
+      "description": "ripgrep recursively searches directories for a regex pattern while respecting your gitignore",
+      "topics": [
+        "cli",
+        "command-line-tool",
+        "search",
+        "rust"
+      ],
+      "language": "Rust",
+      "stargazers_count": 52000,
+      "forks_count": 5200,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-16T00:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "node_id": "R_demo_16",
+      "name": "fzf",
+      "full_name": "junegunn/fzf",
+      "owner": {
+        "login": "junegunn"
+      },
+      "html_url": "https://github.com/junegunn/fzf",
+      "description": "A command-line fuzzy finder",
+      "topics": [
+        "cli",
+        "fuzzy-finder",
+        "terminal"
+      ],
+      "language": "Go",
+      "stargazers_count": 68000,
+      "forks_count": 6800,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-17T00:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "node_id": "R_demo_17",
+      "name": "pnpm",
+      "full_name": "pnpm/pnpm",
+      "owner": {
+        "login": "pnpm"
+      },
+      "html_url": "https://github.com/pnpm/pnpm",
+      "description": "Fast, disk space efficient package manager",
+      "topics": [
+        "package-manager",
+        "cli",
+        "nodejs"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 32000,
+      "forks_count": 3200,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-18T00:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "node_id": "R_demo_18",
+      "name": "uv",
+      "full_name": "astral-sh/uv",
+      "owner": {
+        "login": "astral-sh"
+      },
+      "html_url": "https://github.com/astral-sh/uv",
+      "description": "An extremely fast Python package and project manager, written in Rust.",
+      "topics": [
+        "python",
+        "package-manager",
+        "cli"
+      ],
+      "language": "Rust",
+      "stargazers_count": 38000,
+      "forks_count": 3800,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-19T00:00:00.000Z"
+    },
+    {
+      "id": 18,
+      "node_id": "R_demo_19",
+      "name": "redis",
+      "full_name": "redis/redis",
+      "owner": {
+        "login": "redis"
+      },
+      "html_url": "https://github.com/redis/redis",
+      "description": "Redis is an in-memory database that persists on disk. The data model is key-value, but many different kind of values are supported.",
+      "topics": [
+        "database",
+        "redis",
+        "key-value",
+        "server"
+      ],
+      "language": "C",
+      "stargazers_count": 69000,
+      "forks_count": 6900,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-20T00:00:00.000Z"
+    },
+    {
+      "id": 19,
+      "node_id": "R_demo_20",
+      "name": "kubernetes",
+      "full_name": "kubernetes/kubernetes",
+      "owner": {
+        "login": "kubernetes"
+      },
+      "html_url": "https://github.com/kubernetes/kubernetes",
+      "description": "Production-Grade Container Scheduling and Management",
+      "topics": [
+        "kubernetes",
+        "containers",
+        "orchestration"
+      ],
+      "language": "Go",
+      "stargazers_count": 115000,
+      "forks_count": 11500,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-21T00:00:00.000Z"
+    },
+    {
+      "id": 20,
+      "node_id": "R_demo_21",
+      "name": "supabase",
+      "full_name": "supabase/supabase",
+      "owner": {
+        "login": "supabase"
+      },
+      "html_url": "https://github.com/supabase/supabase",
+      "description": "The Postgres development platform. Supabase gives you a dedicated Postgres database to build your web, mobile, and AI applications.",
+      "topics": [
+        "postgres",
+        "database",
+        "baas",
+        "self-hosted"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 88000,
+      "forks_count": 8800,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-22T00:00:00.000Z"
+    },
+    {
+      "id": 21,
+      "node_id": "R_demo_22",
+      "name": "n8n",
+      "full_name": "n8n-io/n8n",
+      "owner": {
+        "login": "n8n-io"
+      },
+      "html_url": "https://github.com/n8n-io/n8n",
+      "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+      "topics": [
+        "workflow",
+        "automation",
+        "self-hosted",
+        "ai"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 150000,
+      "forks_count": 15000,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-23T00:00:00.000Z"
+    },
+    {
+      "id": 22,
+      "node_id": "R_demo_23",
+      "name": "vscode",
+      "full_name": "microsoft/vscode",
+      "owner": {
+        "login": "microsoft"
+      },
+      "html_url": "https://github.com/microsoft/vscode",
+      "description": "Visual Studio Code",
+      "topics": [
+        "editor",
+        "electron",
+        "typescript",
+        "ide"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 172000,
+      "forks_count": 17200,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-24T00:00:00.000Z"
+    },
+    {
+      "id": 23,
+      "node_id": "R_demo_24",
+      "name": "localsend",
+      "full_name": "localsend/localsend",
+      "owner": {
+        "login": "localsend"
+      },
+      "html_url": "https://github.com/localsend/localsend",
+      "description": "An open-source cross-platform alternative to AirDrop",
+      "topics": [
+        "flutter",
+        "file-sharing",
+        "desktop-app",
+        "mobile"
+      ],
+      "language": "Dart",
+      "stargazers_count": 66000,
+      "forks_count": 6600,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-25T00:00:00.000Z"
+    },
+    {
+      "id": 24,
+      "node_id": "R_demo_25",
+      "name": "excalidraw",
+      "full_name": "excalidraw/excalidraw",
+      "owner": {
+        "login": "excalidraw"
+      },
+      "html_url": "https://github.com/excalidraw/excalidraw",
+      "description": "Virtual whiteboard for sketching hand-drawn like diagrams",
+      "topics": [
+        "whiteboard",
+        "drawing",
+        "react",
+        "app"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 105000,
+      "forks_count": 10500,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-26T00:00:00.000Z"
+    },
+    {
+      "id": 25,
+      "node_id": "R_demo_26",
+      "name": "jellyfin",
+      "full_name": "jellyfin/jellyfin",
+      "owner": {
+        "login": "jellyfin"
+      },
+      "html_url": "https://github.com/jellyfin/jellyfin",
+      "description": "The Free Software Media System - Server Backend & API",
+      "topics": [
+        "media",
+        "self-hosted",
+        "server",
+        "streaming"
+      ],
+      "language": "C#",
+      "stargazers_count": 41000,
+      "forks_count": 4100,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-27T00:00:00.000Z"
+    },
+    {
+      "id": 26,
+      "node_id": "R_demo_27",
+      "name": "awesome-selfhosted",
+      "full_name": "awesome-selfhosted/awesome-selfhosted",
+      "owner": {
+        "login": "awesome-selfhosted"
+      },
+      "html_url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "description": "A list of Free Software network services and web applications which can be hosted on your own servers",
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "self-hosted"
+      ],
+      "language": null,
+      "stargazers_count": 240000,
+      "forks_count": 24000,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-28T00:00:00.000Z"
+    },
+    {
+      "id": 27,
+      "node_id": "R_demo_28",
+      "name": "developer-roadmap",
+      "full_name": "kamranahmedse/developer-roadmap",
+      "owner": {
+        "login": "kamranahmedse"
+      },
+      "html_url": "https://github.com/kamranahmedse/developer-roadmap",
+      "description": "Interactive roadmaps, guides and other educational content to help developers grow in their careers.",
+      "topics": [
+        "roadmap",
+        "learning",
+        "guide"
+      ],
+      "language": "TypeScript",
+      "stargazers_count": 330000,
+      "forks_count": 33000,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-29T00:00:00.000Z"
+    },
+    {
+      "id": 28,
+      "node_id": "R_demo_29",
+      "name": "build-your-own-x",
+      "full_name": "codecrafters-io/build-your-own-x",
+      "owner": {
+        "login": "codecrafters-io"
+      },
+      "html_url": "https://github.com/codecrafters-io/build-your-own-x",
+      "description": "Master programming by recreating your favorite technologies from scratch.",
+      "topics": [
+        "tutorial",
+        "learning",
+        "awesome-list"
+      ],
+      "language": "Markdown",
+      "stargazers_count": 420000,
+      "forks_count": 42000,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 1200,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-30T00:00:00.000Z"
+    },
+    {
+      "id": 29,
+      "node_id": "R_demo_30",
+      "name": "scratchpad",
+      "full_name": "someuser/scratchpad",
+      "owner": {
+        "login": "someuser"
+      },
+      "html_url": "https://github.com/someuser/scratchpad",
+      "description": null,
+      "topics": [],
+      "language": null,
+      "stargazers_count": 2,
+      "forks_count": 0,
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "size": 8,
+      "homepage": null,
+      "default_branch": "main",
+      "pushed_at": "2026-09-01T10:00:00Z",
+      "created_at": "2018-01-01T00:00:00Z",
+      "license": {
+        "spdx_id": "MIT"
+      },
+      "starred_at": "2024-01-31T00:00:00.000Z"
+    },
+    {
+      "repo": {
+        "id": 30,
+        "node_id": "R_demo_31",
+        "name": "tiny-cli",
+        "full_name": "acme/tiny-cli",
+        "owner": {
+          "login": "acme"
+        },
+        "html_url": "https://github.com/acme/tiny-cli",
+        "description": "A small utility to clean up temporary files.",
+        "topics": [],
+        "language": "TypeScript",
+        "stargazers_count": 42,
+        "forks_count": 4,
+        "archived": false,
+        "fork": false,
+        "private": false,
+        "size": 1200,
+        "homepage": null,
+        "default_branch": "main",
+        "pushed_at": "2026-09-01T10:00:00Z",
+        "created_at": "2018-01-01T00:00:00Z",
+        "license": {
+          "spdx_id": "MIT"
+        },
+        "starred_at": "2024-02-01T00:00:00.000Z"
+      },
+      "signals": {
+        "files": [
+          "package.json"
+        ],
+        "packageJson": {
+          "name": "tiny-cli",
+          "private": false,
+          "hasBin": true,
+          "hasExports": false,
+          "hasTypes": false,
+          "workspaces": false,
+          "dependencies": [
+            "commander"
+          ],
+          "devDependencies": [],
+          "scripts": [
+            "build"
+          ]
+        },
+        "kernel": {
+          "kconfig": false,
+          "objM": false,
+          "bpfSource": false,
+          "moduleInit": false
+        },
+        "hasDockerfile": false,
+        "hasCompose": false,
+        "hasTauri": false,
+        "hasElectronBuilder": false,
+        "hasAndroidManifest": false,
+        "hasXcodeProject": false,
+        "hasWebIndex": false,
+        "hasMainEntry": true,
+        "hasFrontendFramework": false,
+        "errors": []
+      }
+    },
+    {
+      "repo": {
+        "id": 31,
+        "node_id": "R_demo_32",
+        "name": "notes-api",
+        "full_name": "acme/notes-api",
+        "owner": {
+          "login": "acme"
+        },
+        "html_url": "https://github.com/acme/notes-api",
+        "description": "A tiny backend for taking notes.",
+        "topics": [],
+        "language": "Python",
+        "stargazers_count": 18,
+        "forks_count": 2,
+        "archived": false,
+        "fork": false,
+        "private": false,
+        "size": 1200,
+        "homepage": null,
+        "default_branch": "main",
+        "pushed_at": "2026-09-01T10:00:00Z",
+        "created_at": "2018-01-01T00:00:00Z",
+        "license": {
+          "spdx_id": "MIT"
+        },
+        "starred_at": "2024-02-02T00:00:00.000Z"
+      },
+      "signals": {
+        "files": [
+          "pyproject.toml",
+          "docker-compose.yml"
+        ],
+        "python": {
+          "hasConsoleScripts": false,
+          "dependencies": [
+            "fastapi",
+            "uvicorn",
+            "sqlalchemy"
+          ],
+          "isPackage": true
+        },
+        "kernel": {
+          "kconfig": false,
+          "objM": false,
+          "bpfSource": false,
+          "moduleInit": false
+        },
+        "hasDockerfile": true,
+        "hasCompose": true,
+        "hasTauri": false,
+        "hasElectronBuilder": false,
+        "hasAndroidManifest": false,
+        "hasXcodeProject": false,
+        "hasWebIndex": false,
+        "hasMainEntry": true,
+        "hasFrontendFramework": false,
+        "errors": []
+      }
+    },
+    {
+      "repo": {
+        "id": 32,
+        "node_id": "R_demo_33",
+        "name": "gpio-mod",
+        "full_name": "acme/gpio-mod",
+        "owner": {
+          "login": "acme"
+        },
+        "html_url": "https://github.com/acme/gpio-mod",
+        "description": "Out-of-tree GPIO helper for Linux SBCs.",
+        "topics": [],
+        "language": "C",
+        "stargazers_count": 9,
+        "forks_count": 1,
+        "archived": false,
+        "fork": false,
+        "private": false,
+        "size": 1200,
+        "homepage": null,
+        "default_branch": "main",
+        "pushed_at": "2026-09-01T10:00:00Z",
+        "created_at": "2018-01-01T00:00:00Z",
+        "license": {
+          "spdx_id": "MIT"
+        },
+        "starred_at": "2024-02-03T00:00:00.000Z"
+      },
+      "signals": {
+        "files": [
+          "Kconfig",
+          "Makefile"
+        ],
+        "kernel": {
+          "kconfig": true,
+          "objM": true,
+          "bpfSource": false,
+          "moduleInit": false
+        },
+        "hasDockerfile": false,
+        "hasCompose": false,
+        "hasTauri": false,
+        "hasElectronBuilder": false,
+        "hasAndroidManifest": false,
+        "hasXcodeProject": false,
+        "hasWebIndex": false,
+        "hasMainEntry": false,
+        "hasFrontendFramework": false,
+        "errors": []
+      }
+    },
+    {
+      "repo": {
+        "id": 33,
+        "node_id": "R_demo_34",
+        "name": "ui-kit",
+        "full_name": "acme/ui-kit",
+        "owner": {
+          "login": "acme"
+        },
+        "html_url": "https://github.com/acme/ui-kit",
+        "description": "Headless primitives for dashboards.",
+        "topics": [],
+        "language": "TypeScript",
+        "stargazers_count": 77,
+        "forks_count": 8,
+        "archived": false,
+        "fork": false,
+        "private": false,
+        "size": 1200,
+        "homepage": null,
+        "default_branch": "main",
+        "pushed_at": "2026-09-01T10:00:00Z",
+        "created_at": "2018-01-01T00:00:00Z",
+        "license": {
+          "spdx_id": "MIT"
+        },
+        "starred_at": "2024-02-04T00:00:00.000Z"
+      },
+      "signals": {
+        "files": [
+          "package.json"
+        ],
+        "packageJson": {
+          "name": "@acme/ui-kit",
+          "private": false,
+          "hasBin": false,
+          "hasExports": true,
+          "hasTypes": true,
+          "workspaces": false,
+          "dependencies": [
+            "react"
+          ],
+          "devDependencies": [],
+          "scripts": [
+            "build"
+          ]
+        },
+        "kernel": {
+          "kconfig": false,
+          "objM": false,
+          "bpfSource": false,
+          "moduleInit": false
+        },
+        "hasDockerfile": false,
+        "hasCompose": false,
+        "hasTauri": false,
+        "hasElectronBuilder": false,
+        "hasAndroidManifest": false,
+        "hasXcodeProject": false,
+        "hasWebIndex": false,
+        "hasMainEntry": false,
+        "hasFrontendFramework": true,
+        "errors": []
+      }
+    }
+  ],
+  "warnings": []
+}
