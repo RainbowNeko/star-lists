@@ -36,6 +36,50 @@ export type EvidenceSource =
 /** 分类引擎：规则引擎 / 端侧小模型 / 大模型。 */
 export type EngineName = 'rules' | 'edge' | 'large';
 
+/** 正交标签的四个维度。 */
+export const FACET_GROUPS = ['form', 'layer', 'role', 'domain'] as const;
+export type FacetGroup = (typeof FACET_GROUPS)[number];
+
+export const FORM_FACETS = [
+  'cli',
+  'gui',
+  'mobile',
+  'web',
+  'api',
+  'library',
+  'docs',
+  'data',
+] as const;
+export type FormFacet = (typeof FORM_FACETS)[number];
+
+export const LAYER_FACETS = ['system', 'platform', 'infra', 'app'] as const;
+export type LayerFacet = (typeof LAYER_FACETS)[number];
+
+export const ROLE_FACETS = ['runtime', 'build', 'operational', 'learning'] as const;
+export type RoleFacet = (typeof ROLE_FACETS)[number];
+
+export const DOMAIN_FACETS = [
+  'ai',
+  'data',
+  'devtools',
+  'security',
+  'media',
+  'productivity',
+  'web',
+  'systems',
+  'infra',
+  'science',
+] as const;
+export type DomainFacet = (typeof DOMAIN_FACETS)[number];
+
+/** 一个仓库可以同时拥有的正交标签；与主层级 level 并存。 */
+export interface RepoFacets {
+  form: FormFacet[];
+  layer: LayerFacet[];
+  role: RoleFacet[];
+  domain: DomainFacet[];
+}
+
 export interface Evidence {
   level: Level;
   weight: number;
@@ -167,6 +211,8 @@ export interface ClassifiedRepo {
   needsReview: boolean;
   deepAnalyzed: boolean;
   signals?: DeepSignals;
+  /** 与主层级正交的标签；旧数据可能没有。 */
+  facets?: RepoFacets;
 }
 
 export interface GitHubProfile {
@@ -180,7 +226,8 @@ export interface GitHubProfile {
 }
 
 export interface Dataset {
-  schemaVersion: 1;
+  /** 2 起包含正交标签 facets；旧文件仍可能是 1。 */
+  schemaVersion: 1 | 2;
   username: string;
   profile: GitHubProfile | null;
   fetchedAt: string;

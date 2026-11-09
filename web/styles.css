@@ -229,6 +229,7 @@ button.ghost.disabled { pointer-events: none; opacity: 0.35; }
 .pill.conf { color: var(--accent); }
 .pill.review { color: var(--yellow); }
 .pill.manual { color: var(--green); }
+.pill.facet { color: #8fd3ff; background: rgba(143, 211, 255, 0.08); border-color: rgba(143, 211, 255, 0.25); }
 .card-actions { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
 .card-actions select { padding: 4px 6px; font-size: 11px; border-radius: 7px; }
 

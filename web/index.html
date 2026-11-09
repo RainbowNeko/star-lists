@@ -139,6 +139,10 @@
             <summary>跳过层级</summary>
             <div id="skip-levels" class="skip-grid"></div>
           </details>
+          <details class="skip">
+            <summary>附加标签列表（可选）</summary>
+            <div id="facet-lists" class="skip-grid"></div>
+          </details>
           <button id="publish-btn" class="secondary" type="button">发布 / 预览</button>
           <pre id="publish-report" class="report hidden"></pre>
         </section>
@@ -164,6 +168,9 @@
             <option value="all">全部仓库</option>
             <option value="review">仅待复核</option>
             <option value="manual">仅人工分类</option>
+          </select>
+          <select id="facet-filter">
+            <option value="">全部标签</option>
           </select>
           <span id="visible-count" class="muted"></span>
         </div>

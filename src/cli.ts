@@ -5,13 +5,14 @@ import { Command, Option } from 'commander';
 import pc from 'picocolors';
 import { resolveToken } from './auth.js';
 import { resolveEngineConfig } from './engine.js';
+import { isFacetGroup } from './facets.js';
 import { GitHubClient, GraphQLApiError, RateLimitError } from './github.js';
 import { isLevel, ORDERED_LEVELS } from './levels.js';
 import { writeDataset } from './output.js';
 import { analyzeUser } from './pipeline.js';
 import { formatPublishReport, GitHubListsApi, publishLists } from './publish.js';
 import { formatConsoleSummary } from './render/console.js';
-import type { Level, RunOptions } from './types.js';
+import type { FacetGroup, Level, RunOptions } from './types.js';
 
 const VERSION = '0.1.0';
 
@@ -45,6 +46,7 @@ interface CliOptions {
   publishDryRun?: boolean;
   replaceLists?: boolean;
   skipLevels?: string;
+  facetLists?: string;
   yes?: boolean;
 }
 
@@ -80,6 +82,18 @@ function parseLevels(value?: string): Level[] | undefined {
     levels.push(part);
   }
   return levels;
+}
+
+function parseFacetGroups(value?: string): FacetGroup[] | undefined {
+  if (!value) return undefined;
+  const groups: FacetGroup[] = [];
+  for (const part of value.split(',').map((item) => item.trim()).filter(Boolean)) {
+    if (!isFacetGroup(part)) {
+      fail(`未知标签维度「${part}」。可选：form, layer, role, domain`);
+    }
+    if (!groups.includes(part)) groups.push(part);
+  }
+  return groups;
 }
 
 async function ask(question: string): Promise<string> {
@@ -163,6 +177,7 @@ async function main(): Promise<void> {
     .option('--publish-dry-run', '只展示 Lists 同步计划，不写入')
     .option('--replace-lists', '同步时覆盖仓库已有列表归属（默认保留并合并）')
     .option('--skip-levels <levels>', '同步时跳过某些层级，逗号分隔，如 resource,unclassified')
+    .option('--facet-lists <groups>', '同步时额外发布的正交标签维度，逗号分隔，如 form')
     .option('-y, --yes', '跳过发布确认')
     .addHelpText(
       'after',
@@ -208,6 +223,7 @@ async function main(): Promise<void> {
       const top = positiveInt(options.top, '--top', 0, 100_000);
       const since = parseSince(options.since);
       const skipLevels = parseLevels(options.skipLevels);
+      const facetGroups = parseFacetGroups(options.facetLists);
       const engineBatchSize = positiveInt(options.engineBatchSize, '--engine-batch-size', 20, 500);
       if (engineBatchSize < 1) fail('--engine-batch-size 需要是正整数。');
       const engineConcurrency = options.engineConcurrency
@@ -328,6 +344,7 @@ async function main(): Promise<void> {
           dataset,
           levels: targetLevels,
           replaceLists: Boolean(options.replaceLists),
+          facetGroups,
           dryRun,
           concurrency: 2,
           log: status,

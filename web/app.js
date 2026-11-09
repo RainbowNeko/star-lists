@@ -18,6 +18,7 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 const state = {
   levels: [],
+  facetGroups: [],
   datasets: [],
   dataset: null,
   dir: '',
@@ -26,6 +27,7 @@ const state = {
   changes: new Map(),
   confirmations: new Set(),
   filter: 'all',
+  facetFilter: '',
   query: '',
   detailName: null,
   busy: false,
@@ -53,6 +55,8 @@ const el = {
   board: $('#board'),
   search: $('#search'),
   filter: $('#filter'),
+  facetFilter: $('#facet-filter'),
+  facetLists: $('#facet-lists'),
   visibleCount: $('#visible-count'),
   saveBtn: $('#save-btn'),
   unsavedCount: $('#unsaved-count'),
@@ -96,6 +100,32 @@ function levelMeta(id) {
 function labelOf(id) {
   const meta = levelMeta(id);
   return meta ? `${meta.emoji} ${meta.zh}` : id;
+}
+
+function facetValueMeta(group, value) {
+  return state.facetGroups.find((item) => item.id === group)?.values.find((item) => item.id === value);
+}
+
+function facetLabel(group, value) {
+  const meta = facetValueMeta(group, value);
+  return meta ? `${meta.emoji} ${meta.zh}` : value;
+}
+
+function facetPills(item, groups = ['form', 'domain']) {
+  const values = [];
+  for (const group of groups) {
+    for (const value of item.facets?.[group] ?? []) values.push(facetLabel(group, value));
+  }
+  return values;
+}
+
+function facetSearchText(item) {
+  if (!item.facets) return '';
+  const words = [];
+  for (const group of ['form', 'layer', 'role', 'domain']) {
+    for (const value of item.facets[group] ?? []) words.push(value, facetLabel(group, value));
+  }
+  return words.join(' ');
 }
 
 function toast(message, kind = '') {
@@ -299,6 +329,14 @@ function openDetail(name) {
     span.textContent = text;
     el.detailMeta.append(span);
   }
+  for (const group of ['form', 'layer', 'role', 'domain']) {
+    for (const value of item.facets?.[group] ?? []) {
+      const span = document.createElement('span');
+      span.className = 'pill facet';
+      span.textContent = facetLabel(group, value);
+      el.detailMeta.append(span);
+    }
+  }
   el.detailLevel.replaceChildren();
   const select = buildLevelSelect(item.level);
   for (const option of [...select.options]) el.detailLevel.append(option);
@@ -370,6 +408,12 @@ function createCard(item) {
     archived.textContent = '已归档';
     meta.append(archived);
   }
+  for (const text of facetPills(item, ['form', 'domain']).slice(0, 4)) {
+    const facet = document.createElement('span');
+    facet.className = 'pill facet';
+    facet.textContent = text;
+    meta.append(facet);
+  }
 
   const actions = document.createElement('div');
   actions.className = 'card-actions';
@@ -399,12 +443,17 @@ function visibleRepos() {
     const manual = state.changes.has(item.repo.nameWithOwner) || item.evidence.some((entry) => entry.source === 'manual');
     if (state.filter === 'review' && !item.needsReview) return false;
     if (state.filter === 'manual' && !manual) return false;
+    if (state.facetFilter) {
+      const [group, value] = state.facetFilter.split(':');
+      if (!(item.facets?.[group] ?? []).includes(value)) return false;
+    }
     if (!query) return true;
     const haystack = [
       item.repo.nameWithOwner,
       item.repo.description ?? '',
       item.repo.language ?? '',
       ...(item.repo.topics ?? []),
+      facetSearchText(item),
     ].join(' ').toLowerCase();
     return haystack.includes(query);
   });
@@ -773,6 +822,7 @@ async function publish() {
   const dryRun = $('#publish-dry-run').checked;
   if (!dryRun && !window.confirm('即将写入 GitHub Lists，可能修改/删除仓库的列表归属。确认继续？')) return;
   const skipLevels = $$('#skip-levels input:checked').map((input) => input.value);
+  const facetLists = $$('#facet-lists input:checked').map((input) => input.value);
   setBusy(true);
   setJob(dryRun ? '正在生成发布预览…' : '正在发布…');
   try {
@@ -785,6 +835,7 @@ async function publish() {
         confirm: !dryRun,
         replaceLists: $('#replace-lists').checked,
         skipLevels,
+        facetLists,
       }),
     });
     await pollJob(jobId, 'publish');
@@ -832,6 +883,10 @@ function bind() {
     state.filter = el.filter.value;
     renderBoard();
   });
+  el.facetFilter.addEventListener('change', () => {
+    state.facetFilter = el.facetFilter.value;
+    renderBoard();
+  });
   el.publishBtn.addEventListener('click', publish);
   el.detailConfirm.addEventListener('click', () => {
     if (!state.detailName) return;
@@ -864,6 +919,40 @@ function buildSkipLevels() {
   }
 }
 
+function buildFacetFilter() {
+  el.facetFilter.replaceChildren();
+  const all = document.createElement('option');
+  all.value = '';
+  all.textContent = '全部标签';
+  el.facetFilter.append(all);
+  for (const group of state.facetGroups) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = group.zh;
+    for (const value of group.values) {
+      const option = document.createElement('option');
+      option.value = `${group.id}:${value.id}`;
+      option.textContent = `${value.emoji} ${value.zh}`;
+      optgroup.append(option);
+    }
+    el.facetFilter.append(optgroup);
+  }
+  el.facetFilter.value = state.facetFilter;
+}
+
+function buildFacetLists() {
+  el.facetLists.replaceChildren();
+  for (const group of state.facetGroups) {
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.value = group.id;
+    const text = document.createElement('span');
+    text.textContent = group.zh;
+    label.append(input, text);
+    el.facetLists.append(label);
+  }
+}
+
 async function init() {
   bind();
   setSidebarCollapsed(readSidebarPref(), false);
@@ -871,7 +960,10 @@ async function init() {
   try {
     const data = await api('/api/levels');
     state.levels = data.levels ?? [];
+    state.facetGroups = data.facets ?? [];
     buildSkipLevels();
+    buildFacetFilter();
+    buildFacetLists();
     await loadDatasets();
     render();
   } catch (error) {

@@ -1,4 +1,5 @@
 import { LEVELS, ORDERED_LEVELS } from '../levels.js';
+import { FACET_VALUE_META } from '../facets.js';
 import type { ClassifiedRepo, Dataset, Level } from '../types.js';
 import {
   escapeTableCell,
@@ -170,6 +171,18 @@ function renderReadme(dataset: Dataset, groups: Map<Level, ClassifiedRepo[]>, co
   ].join('\n');
 }
 
+function renderFacetTags(item: ClassifiedRepo): string {
+  if (!item.facets) return '—';
+  const tags: string[] = [];
+  for (const group of ['form', 'domain'] as const) {
+    for (const value of item.facets[group]) {
+      const meta = FACET_VALUE_META[group][value];
+      if (meta) tags.push(`${meta.emoji} ${meta.zh}`);
+    }
+  }
+  return tags.length ? escapeTableCell(tags.join(' ')) : '—';
+}
+
 function renderListFile(
   level: Level,
   items: ClassifiedRepo[],
@@ -185,7 +198,7 @@ function renderListFile(
     const repo = item.repo;
     return `| ${index + 1} | ${repoLink(repo)} | ${formatStars(repo.stars)} | ${
       repo.language ?? '—'
-    } | ${repo.description ? escapeTableCell(truncate(repo.description, 120)) : '—'} | ${escapeTableCell(
+    } | ${repo.description ? escapeTableCell(truncate(repo.description, 120)) : '—'} | ${renderFacetTags(item)} | ${escapeTableCell(
       reasonOf(item),
     )} |`;
   });
@@ -206,8 +219,8 @@ function renderListFile(
     truncatedNote,
     `[← 返回总览](../README.md)`,
     '',
-    '| # | 项目 | ⭐ | 语言 | 简介 | 判定依据 |',
-    '|--:|:--|--:|:--|:--|:--|',
+    '| # | 项目 | ⭐ | 语言 | 简介 | 标签 | 判定依据 |',
+    '|--:|:--|--:|:--|:--|:--|:--|',
     ...rows,
     '',
     '<sub>判定依据取置信度最高的前两条；完整证据见 `data.json`。</sub>',
@@ -222,15 +235,15 @@ function renderReview(items: ClassifiedRepo[]): string | null {
     const alternative = item.runnerUp ? LEVELS[item.runnerUp].zh : '—';
     return `| ${repoLink(item.repo)} | ${LEVELS[item.level].zh} | ${Math.round(
       item.confidence * 100,
-    )}% | ${alternative} | ${escapeTableCell(reasonOf(item, 70))} |`;
+    )}% | ${alternative} | ${renderFacetTags(item)} | ${escapeTableCell(reasonOf(item, 70))} |`;
   });
   return [
     '# 🔍 待复核项目',
     '',
     '> 置信度低于 50%，或第一、第二候选层级分差过小的项目。建议人工确认，或在 `data.json` 中查看完整证据。',
     '',
-    '| 项目 | 当前归类 | 置信度 | 次选 | 主要依据 |',
-    '|:--|:--|--:|:--|:--|',
+    '| 项目 | 当前归类 | 置信度 | 次选 | 标签 | 主要依据 |',
+    '|:--|:--|--:|:--|:--|:--|',
     ...rows,
     '',
     '[← 返回总览](../README.md)',

@@ -94,6 +94,35 @@ describe('分类引擎', () => {
     expect(merged.repos[1]?.level).toBe('app');
   });
 
+  it('解析模型返回的正交标签并与规则标签合并', async () => {
+    const items = [classified('demo/one', 'cli')];
+    items[0].facets = {
+      form: ['cli'],
+      layer: ['infra'],
+      role: ['operational'],
+      domain: ['devtools'],
+    };
+    const engine = new OpenAICompatibleEngine(config(), {
+      fetchImpl: fakeFetch([
+        {
+          name: 'demo/one',
+          level: 'server',
+          confidence: 0.9,
+          reason: 'test',
+          facets: { form: ['api', 'not-a-form'], domain: ['infra'] },
+        },
+      ]),
+    });
+    const outcome = await engine.classify(items);
+    expect(outcome.results.get('demo/one')?.facets?.form).toEqual(['api']);
+
+    const merged = mergeEngineResults(items, outcome, 'edge');
+    expect(merged.repos[0]?.facets?.form).toEqual(expect.arrayContaining(['cli', 'api']));
+    expect(merged.repos[0]?.facets?.domain).toEqual(
+      expect.arrayContaining(['devtools', 'infra']),
+    );
+  });
+
   it('大模型引擎缺少地址时给出明确错误', () => {
     expect(() => resolveEngineConfig({ engine: 'large' })).toThrow(/engine-base-url/);
   });

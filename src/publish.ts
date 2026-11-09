@@ -1,5 +1,6 @@
-import type { Dataset, Level, PublishReport } from './types.js';
+import type { Dataset, FacetGroup, Level, PublishReport } from './types.js';
 import { GraphQLApiError, type GitHubClient } from './github.js';
+import { facetListDescription, facetListName } from './facets.js';
 import { LEVELS, ORDERED_LEVELS } from './levels.js';
 import { mapLimit, sleep } from './util.js';
 
@@ -247,6 +248,8 @@ export interface PublishOptions {
   levels?: Level[];
   /** 覆盖仓库已有的其它列表（默认保留）。 */
   replaceLists?: boolean;
+  /** 额外发布哪些正交标签维度（如 ['form']）；默认不发布。 */
+  facetGroups?: FacetGroup[];
   dryRun?: boolean;
   concurrency?: number;
   log?: (message: string) => void;
@@ -310,6 +313,7 @@ export async function publishLists(options: PublishOptions): Promise<PublishRepo
   const allowed = new Set<Level>(
     options.levels ?? ORDERED_LEVELS.map((meta) => meta.id),
   );
+  const facetGroups = new Set<FacetGroup>(options.facetGroups ?? []);
   const groups = new Map<Level, Dataset['repos']>();
   for (const level of ORDERED_LEVELS.map((meta) => meta.id)) {
     groups.set(level, []);
@@ -362,6 +366,56 @@ export async function publishLists(options: PublishOptions): Promise<PublishRepo
     }
   }
 
+  // 正交标签列表：同一仓库可以同时进入主层级列表和多个标签列表。
+  const facetTargets = new Map<string, { name: string; description: string }>();
+  for (const item of dataset.repos) {
+    if (!allowed.has(item.level) || !item.facets) continue;
+    for (const group of facetGroups) {
+      for (const value of item.facets[group]) {
+        const key = `${group}:${value}`;
+        if (!facetTargets.has(key)) {
+          facetTargets.set(key, {
+            name: facetListName(group, value),
+            description: facetListDescription(group, value),
+          });
+        }
+      }
+    }
+  }
+
+  const listIdByFacet = new Map<string, string>();
+  for (const [key, target] of facetTargets) {
+    const found = byName.get(target.name);
+    if (found) {
+      listIdByFacet.set(key, found.id);
+      reusedLists.push(found.name);
+      continue;
+    }
+    if (dryRun) {
+      listIdByFacet.set(key, `dry-run:${key}`);
+      createdLists.push(target.name);
+      continue;
+    }
+    try {
+      const created = await api.createList({
+        name: target.name,
+        description: target.description,
+      });
+      listIdByFacet.set(key, created.id);
+      createdLists.push(created.name);
+      log(`已创建列表「${created.name}」`);
+    } catch (error) {
+      if (isPermissionError(error)) {
+        throw new PublishPermissionError(
+          '当前 token 缺少 `user` scope，无法创建 GitHub Lists。\n' +
+            '  gh auth refresh -h github.com -s user\n' +
+            '或使用带 user scope 的 classic PAT。',
+        );
+      }
+      throw error;
+    }
+  }
+
   const existingByRepo = new Map<string, string[]>();
   for (const list of existing) {
     for (const item of list.items) {
@@ -384,7 +438,7 @@ export async function publishLists(options: PublishOptions): Promise<PublishRepo
   const total = dataset.repos.filter((item) => allowed.has(item.level)).length;
   let done = 0;
   log(
-    `${dryRun ? '（dry-run）' : ''}准备同步 ${total} 个仓库到 ${nonEmpty.length} 个列表…`,
+    `${dryRun ? '（dry-run）' : ''}准备同步 ${total} 个仓库到 ${nonEmpty.length + facetTargets.size} 个列表…`,
   );
 
   await mapLimit(
@@ -417,9 +471,17 @@ export async function publishLists(options: PublishOptions): Promise<PublishRepo
       }
 
       const current = existingByRepo.get(itemId) ?? [];
+      const facetIds: string[] = [];
+      for (const group of facetGroups) {
+        for (const value of item.facets?.[group] ?? []) {
+          const id = listIdByFacet.get(`${group}:${value}`);
+          if (id && !facetIds.includes(id)) facetIds.push(id);
+        }
+      }
+      const targets = [targetId, ...facetIds];
       const desired = replaceLists
-        ? [targetId]
-        : [...new Set([...current, targetId])];
+        ? targets
+        : [...new Set([...current, ...targets])];
       const same =
         desired.length === current.length &&
         desired.every((id) => current.includes(id));

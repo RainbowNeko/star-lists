@@ -7,6 +7,7 @@ import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node
 import { fileURLToPath } from 'node:url';
 import { resolveToken } from '../auth.js';
 import { resolveEngineConfig } from '../engine.js';
+import { facetCatalog, isFacetGroup, inferFacets } from '../facets.js';
 import { GitHubClient } from '../github.js';
 import { isLevel, LEVELS, ORDERED_LEVELS } from '../levels.js';
 import { applyManualChanges, type ManualChange } from '../manual.js';
@@ -126,6 +127,14 @@ async function readDatasetWithRevision(
   if (!parsed || !Array.isArray(parsed.repos) || typeof parsed.username !== 'string') {
     throw new HttpError(400, `${dir}/data.json 格式不正确`);
   }
+  // 旧数据没有 facets：读取时按主层级与已有信号补算，写回时自然迁移。
+  let enriched = false;
+  const repos = parsed.repos.map((item) => {
+    if (!item || typeof item !== 'object' || !item.repo || item.facets) return item;
+    enriched = true;
+    return { ...item, facets: inferFacets(item.repo, item.signals, item.level) };
+  });
+  if (enriched) parsed = { ...parsed, schemaVersion: 2, repos };
   return { dataset: parsed, revision: revisionOf(text) };
 }
 
@@ -354,6 +363,9 @@ async function handlePublish(req: IncomingMessage, res: ServerResponse): Promise
   );
   const levels = ORDERED_LEVELS.map((meta) => meta.id).filter((level) => !skipLevels.has(level));
   if (levels.length === 0) throw new HttpError(400, '不能跳过所有层级');
+  const facetGroups = Array.isArray(body.facetLists)
+    ? [...new Set(body.facetLists.filter(isFacetGroup))]
+    : [];
   const dryRun = boolValue(body.dryRun);
   const replaceLists = boolValue(body.replaceLists);
   if (!dryRun && body.confirm !== true && body.yes !== true) {
@@ -369,6 +381,7 @@ async function handlePublish(req: IncomingMessage, res: ServerResponse): Promise
       levels,
       dryRun,
       replaceLists,
+      facetGroups,
       concurrency: 2,
       log: (message) => {
         current.message = message;
@@ -478,6 +491,7 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
         description: meta.description,
         fileBase: meta.fileBase,
       })),
+      facets: facetCatalog(),
     });
     return;
   }

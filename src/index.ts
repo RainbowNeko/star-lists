@@ -2,14 +2,30 @@ export type {
   ClassifiedRepo,
   Dataset,
   DeepSignals,
+  DomainFacet,
   EngineName,
   Evidence,
+  FacetGroup,
+  FormFacet,
   GitHubProfile,
+  LayerFacet,
   Level,
   PublishReport,
+  RepoFacets,
+  RoleFacet,
   StarredRepo,
 } from './types.js';
-export { LEVEL_IDS } from './types.js';
+export { DOMAIN_FACETS, FACET_GROUPS, FORM_FACETS, LAYER_FACETS, LEVEL_IDS, ROLE_FACETS } from './types.js';
+
+export {
+  facetCatalog,
+  facetListDescription,
+  facetListName,
+  inferFacets,
+  isFacetGroup,
+  mergeFacets,
+  sanitizeFacets,
+} from './facets.js';
 
 export { LEVELS, ORDERED_LEVELS, isLevel, levelMeta } from './levels.js';
 export {

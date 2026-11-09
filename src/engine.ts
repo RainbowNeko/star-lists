@@ -1,12 +1,14 @@
 import { ORDERED_LEVELS } from './levels.js';
-import { LEVEL_IDS } from './types.js';
+import { DOMAIN_FACETS, FORM_FACETS, LAYER_FACETS, LEVEL_IDS, ROLE_FACETS } from './types.js';
 import type {
   ClassifiedRepo,
   DeepSignals,
   EngineName,
   Evidence,
   Level,
+  RepoFacets,
 } from './types.js';
+import { mergeFacets, sanitizeFacets } from './facets.js';
 import { mapLimit, sleep } from './util.js';
 
 /** 模型引擎：rules 以外的两种实现。 */
@@ -27,6 +29,7 @@ export interface EngineClassification {
   level: Level;
   confidence: number;
   reason: string;
+  facets?: RepoFacets;
 }
 
 export interface EngineOutcome {
@@ -153,10 +156,11 @@ export function buildSystemPrompt(): string {
     '',
     '要求：',
     '1. 只返回 JSON 数组，不要 Markdown 代码块、不要解释。',
-    '2. 每个对象格式：{"name":"owner/repo","level":"kernel|foundation|dependency|cli|server|app|resource|unclassified","confidence":0.0,"reason":"简短原因"}',
+    '2. 每个对象格式：{"name":"owner/repo","level":"kernel|foundation|dependency|cli|server|app|resource|unclassified","confidence":0.0,"reason":"简短原因","facets":{"form":[],"layer":[],"role":[],"domain":[]}}',
     '3. confidence 是 0~1 的数字；不确定时降低 confidence 或使用 unclassified。',
     '4. 必须覆盖输入中的每个仓库，name 必须与输入完全一致。',
     '5. 框架/库优先 dependency；可部署服务优先 server；awesome/教程/dotfiles 优先 resource。',
+    `6. facets 是可选的附加标签，只能使用这些值：form=[${FORM_FACETS.join(',')}]；layer=[${LAYER_FACETS.join(',')}]；role=[${ROLE_FACETS.join(',')}]；domain=[${DOMAIN_FACETS.join(',')}]。`,
   ].join('\n');
 }
 
@@ -217,7 +221,13 @@ function parseClassifications(
     const confidenceRaw = Number(record.confidence);
     const confidence = Number.isFinite(confidenceRaw) ? clamp(confidenceRaw, 0, 1) : 0.6;
     const reason = String(record.reason ?? '模型分类').trim().slice(0, 240);
-    output.push({ nameWithOwner: target.repo.nameWithOwner, level, confidence, reason });
+    output.push({
+      nameWithOwner: target.repo.nameWithOwner,
+      level,
+      confidence,
+      reason,
+      facets: sanitizeFacets(record.facets),
+    });
   }
   return output;
 }
@@ -362,6 +372,7 @@ export function mergeEngineResults(
       evidence,
       runnerUp: model.level !== item.level ? item.level : item.runnerUp,
       needsReview: model.level === 'unclassified' || model.confidence < 0.5,
+      facets: mergeFacets(item.facets, model.facets),
     };
   });
   return { repos, applied, fallback };

@@ -25,7 +25,14 @@ beforeAll(async () => {
     classified('owner/a', 'dependency'),
     classified('owner/b', 'server'),
     classified('owner/c', 'dependency', {}, 0.3),
+    classified('owner/d', 'dependency'),
   ]);
+  dataset.repos[3].facets = {
+    form: ['cli', 'library'],
+    layer: ['infra'],
+    role: ['operational'],
+    domain: ['devtools'],
+  };
   await writeFile(join(datasetDir, 'data.json'), JSON.stringify(dataset, null, 2), 'utf8');
 });
 
@@ -42,6 +49,7 @@ async function loadDataset(): Promise<{
     repo: { nameWithOwner: string };
     level: string;
     needsReview: boolean;
+    facets?: { form?: string[]; layer?: string[]; role?: string[]; domain?: string[] };
     evidence: Array<{ source: string; reason: string }>;
   }>;
 }> {
@@ -147,5 +155,32 @@ describe('web server', () => {
     expect(after.needsReview).toBe(false);
     expect(after.evidence[0].source).toBe('manual');
     expect(after.evidence[0].reason).toBe('人工复核确认');
+  });
+
+  it('levels 暴露标签目录，保存后标签保留', async () => {
+    const levels = await fetch(`${base}/api/levels`).then((r) => r.json());
+    expect(levels.facets.map((group: { id: string }) => group.id)).toEqual([
+      'form',
+      'layer',
+      'role',
+      'domain',
+    ]);
+
+    const loaded = await loadDataset();
+    const before = loaded.repos.find((item) => item.repo.nameWithOwner === 'owner/d');
+    expect(before?.facets?.form).toEqual(expect.arrayContaining(['cli', 'library']));
+
+    const response = await save(loaded.revision, [
+      { nameWithOwner: 'owner/d', level: 'app' },
+    ]);
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    const after = body.dataset.repos.find(
+      (item: { repo: { nameWithOwner: string } }) => item.repo.nameWithOwner === 'owner/d',
+    );
+    expect(after.level).toBe('app');
+    // dependency 基础标签 library 被替换，来自 topics 的 cli 标签保留。
+    expect(after.facets.form).toEqual(['cli']);
+    expect(after.facets.domain).toEqual(expect.arrayContaining(['devtools']));
   });
 });

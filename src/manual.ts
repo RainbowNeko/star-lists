@@ -1,4 +1,5 @@
 import { isLevel } from './levels.js';
+import { withLevelFacets } from './facets.js';
 import type { Dataset, Evidence, Level } from './types.js';
 
 export interface ManualChange {
@@ -84,6 +85,7 @@ export function applyManualChanges(
       evidence,
       runnerUp: previous,
       needsReview: false,
+      facets: withLevelFacets(item.facets, previous, next),
     };
   });
 

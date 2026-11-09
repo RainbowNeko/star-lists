@@ -358,7 +358,7 @@ export async function analyzeUser(options: AnalyzeOptions): Promise<Dataset> {
   }
 
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     username,
     profile,
     fetchedAt,

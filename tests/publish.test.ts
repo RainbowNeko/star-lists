@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { facetListName } from '../src/facets.js';
 import { GraphQLApiError } from '../src/github.js';
 import { LEVELS } from '../src/levels.js';
 import {
@@ -131,6 +132,39 @@ describe('publishLists', () => {
     expect(report.createdLists).toEqual([LEVELS.cli.listName]);
     expect(report.updated.sort()).toEqual(['demo/cli-one', 'demo/cli-two']);
     expect(api.setCalls.some((call) => call.itemId === 'R3')).toBe(false);
+  });
+
+  it('facetGroups 会创建标签列表并把仓库加入多个列表', async () => {
+    const ds = dataset();
+    ds.repos[0].facets = {
+      form: ['cli'],
+      layer: ['infra'],
+      role: ['operational'],
+      domain: ['devtools'],
+    };
+    ds.repos[1].facets = {
+      form: ['cli'],
+      layer: ['infra'],
+      role: ['operational'],
+      domain: ['devtools'],
+    };
+    ds.repos[2].facets = {
+      form: ['api'],
+      layer: ['infra'],
+      role: ['operational'],
+      domain: ['infra'],
+    };
+    const api = new FakeApi([]);
+    const report = await run({ api, dataset: ds, facetGroups: ['form'] });
+    expect(report.createdLists).toEqual(
+      expect.arrayContaining([
+        LEVELS.cli.listName,
+        LEVELS.server.listName,
+        facetListName('form', 'cli'),
+        facetListName('form', 'api'),
+      ]),
+    );
+    expect(api.setCalls.some((call) => call.listIds.length === 2)).toBe(true);
   });
 
   it('拒绝为其他账号发布', async () => {

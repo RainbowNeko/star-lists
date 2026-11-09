@@ -103,6 +103,19 @@ pnpm demo
 - **构建工具**（Vite、webpack、esbuild）归入 CLI；被 `import` 的运行时库归入依赖包。
 - **awesome / tutorial / dotfiles** 优先于其描述中提到的技术词，避免“教你写 React 的教程”被归到 React 所在层。
 
+### 正交标签（facets）
+
+主层级回答“这个仓库主要是什么”，标签回答“它还具备哪些属性”。同一个仓库可以同时拥有多个标签：
+
+| 维度 | 可选值 |
+|:--|:--|
+| `form` 形态 | `cli`、`gui`、`mobile`、`web`、`api`、`library`、`docs`、`data` |
+| `layer` 层次 | `system`、`platform`、`infra`、`app` |
+| `role` 用途 | `runtime`、`build`、`operational`、`learning` |
+| `domain` 领域 | `ai`、`data`、`devtools`、`security`、`media`、`productivity`、`web`、`systems`、`infra`、`science` |
+
+标签在主层级确定后另行推断（`src/facets.ts`），来源包括主层级的基础标签、topics / 仓库名 / 描述关键词、深度信号，以及模型引擎返回的 `facets`。它们写入 `data.json` 的 `facets` 字段，不参与主层级打分。
+
 ## 判定是怎么做的
 
 分类器按以下顺序累加可解释的分数：
@@ -114,6 +127,7 @@ pnpm demo
 5. **元信息**：应用商店主页、语言、仓库体积等弱信号。
 6. **深度信号**（`--deep`）：文件树 + manifest + README，见下一节。
 7. **人工手动分类**（Web UI）：直接改写层级，写入 `source: "manual"` 证据，置信度记为 1。
+8. **正交标签**：在主层级确定后由 `src/facets.ts` 推断，见上一节。
 
 最终取最高分；平票按“越底层越优先”的顺序（kernel → foundation → dependency → cli → server → app → resource）打破。置信度同时考虑分差与绝对分数，低于 50%、分差过小或总分过低时标记 `needsReview`，写入 `review.md`。
 
@@ -121,6 +135,7 @@ pnpm demo
 
 - `src/anchors.ts` — 知名仓库锚点
 - `src/rules.ts` — topics / 名称 / 描述规则
+- `src/facets.ts` — 正交标签的取值、推断与标签列表命名
 - `src/manifests.ts` — manifest 与 README 解析、深度信号权重
 - `src/engine.ts` — 端侧小模型 / 大模型分类引擎（OpenAI 兼容接口）
 
@@ -223,6 +238,7 @@ pnpm web:dev
 - **分析**：输入 GitHub 用户名，或加载本地 `data.json`；支持 `--deep`、`--since`、`--min-stars`、排除 fork/归档、缓存开关。
 - **分类引擎**：在规则 / 端侧小模型 / 大模型之间切换，模型配置可在表单里临时填写。
 - **人工分类**：8 列看板，把仓库卡片拖到目标层级，或用卡片上的下拉框调整；支持搜索、仅看待复核、仅看人工分类。
+- **正交标签**：卡片与详情展示形态 / 层次 / 用途 / 领域标签，工具栏可按标签筛选；发布时可勾选“附加标签列表”，把同一仓库同时加入主层级列表和标签列表。
 - **复核确认**：详情弹窗里点「确认分类无误」，保持当前层级不变、清除待复核标记；同样需要点击顶部「保存人工分类」才会落盘。
 - **保存人工分类**：写入 `out/<username>/data.json`，并重新生成 `README.md`、`lists/*.md`、`review.md`、`lists.json`。人工结果带 `source: "manual"` 证据，置信度记为 1。
 - **发布**：对当前数据集执行 GitHub Lists dry-run 或真实写入；默认只预览，真实写入会二次确认。
@@ -310,6 +326,7 @@ pnpm starlists <you> --publish --yes
 | `--publish-dry-run` | 只展示同步计划，不写入 | — |
 | `--replace-lists` | 覆盖仓库已有列表归属（默认合并保留） | — |
 | `--skip-levels <levels>` | 同步时跳过层级，如 `resource,unclassified` | — |
+| `--facet-lists <groups>` | 同步时额外发布的标签维度，如 `form`；同一仓库可进入多个列表 | — |
 | `-y, --yes` | 跳过发布确认 | — |
 
 ## 同步到 GitHub Lists
@@ -399,6 +416,7 @@ src/
 ├── classify.ts       # 打分、置信度、待复核
 ├── anchors.ts        # 知名仓库锚点
 ├── rules.ts          # topics / 名称 / 描述规则
+├── facets.ts         # 正交标签：取值、推断、标签列表命名
 ├── manifests.ts      # manifest / README 解析与深度信号
 ├── deep.ts           # 文件树抓取与深度分析编排
 ├── manual.ts         # 人工分类应用

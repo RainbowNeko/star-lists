@@ -10,6 +10,7 @@ import type {
 import { LEVEL_PRIORITY } from './levels.js';
 import { DESCRIPTION_RULES, NAME_RULES, TOPIC_RULES } from './rules.js';
 import { signalsFromDeep } from './manifests.js';
+import { inferFacets } from './facets.js';
 
 const ANCHOR_WEIGHT = 12;
 const MAX_EVIDENCE = 16;
@@ -180,6 +181,7 @@ export function classifyRepo(
     needsReview,
     deepAnalyzed: Boolean(deep),
     signals: deep,
+    facets: inferFacets(repo, deep, level),
   };
 }
 
