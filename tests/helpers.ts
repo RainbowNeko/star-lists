@@ -1,4 +1,13 @@
+import { mkdir, mkdtemp } from 'node:fs/promises';
+import { join } from 'node:path';
 import type { ClassifiedRepo, Dataset, Level, StarredRepo } from '../src/types.js';
+
+/** 在仓库内的 .tmp 下创建临时目录（mkdtemp 要求父目录已存在）。 */
+export async function makeTempDir(prefix: string): Promise<string> {
+  const base = join(process.cwd(), '.tmp');
+  await mkdir(base, { recursive: true });
+  return mkdtemp(join(base, prefix));
+}
 
 export function makeRepo(
   fullName: string,

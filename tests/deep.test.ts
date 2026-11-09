@@ -1,10 +1,8 @@
-import { mkdtemp } from 'node:fs/promises';
-import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { FileCache } from '../src/cache.js';
 import { DeepAnalyzer } from '../src/deep.js';
 import type { GitHubClient, TreeResult } from '../src/github.js';
-import { makeRepo } from './helpers.js';
+import { makeRepo, makeTempDir } from './helpers.js';
 
 interface FakeClient {
   treeCalls: number;
@@ -84,7 +82,7 @@ describe('DeepAnalyzer', () => {
   });
 
   it('使用缓存避免重复读取文件树', async () => {
-    const root = await mkdtemp(join(process.cwd(), '.tmp', 'deep-'));
+    const root = await makeTempDir('deep-');
     const cache = new FileCache(root, 12);
     const client = fakeClient({ 'package.json': JSON.stringify({ name: 'x' }) });
     const analyzer = new DeepAnalyzer(client as unknown as GitHubClient, { cache });
