@@ -10,8 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          version: 12
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
